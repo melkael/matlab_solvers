@@ -1,5 +1,9 @@
-fun = @(x)(100*(x(2) - x(1)^2)^2 + (1 - x(1))^2);
-options = optimset('OutputFcn',@bananaout,'Display','off');
-x0 = [-1.9,2];
-[x,fval,eflag,output] = fminsearch(fun,x0,options);
-title 'Rosenbrock solution via fminsearch'
+opts = optimset('fmincon');
+opts.Algorithm = 'sqp';
+
+function y = MySQPTestFun(X)
+  disp(X)
+  y = abs(X - 2).^3*[1 2 3]';
+end
+
+[X,fval] = fmincon(@MySQPTestFun,[3 4 5],[],[],[],[],[],[],[],opts)
